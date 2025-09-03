@@ -40,8 +40,8 @@ document.addEventListener('DOMContentLoaded', function() {
     document.body.style.overflow = 'hidden';
 });
 
-// Date cible pour le compteur (à modifier selon vos besoins)
-const targetDate = new Date('2025-06-17T13:45:00').getTime();
+// Date cible pour le compteur (22 octobre 2025 à 16h00)
+const targetDate = new Date('2025-10-22T16:00:00').getTime();
 
 // Fonction pour mettre à jour le compteur
 function updateCountdown() {
