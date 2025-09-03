@@ -144,7 +144,7 @@ body {
 /* Section Décompte */
 .countdown-section {
     padding: 80px 0;
-    background: url('ih.jpeg') center/cover no-repeat fixed;
+    background: url('ih.jpeg') center/cover no-repeat;
     text-align: center;
     position: relative;
     min-height: 100vh;
@@ -172,6 +172,7 @@ body {
     margin: 0 auto;
     position: relative;
     z-index: 2;
+    padding: 20px;
 }
 
 .countdown {
@@ -218,6 +219,12 @@ body {
 
 /* Responsive pour le décompte */
 @media (max-width: 768px) {
+    .countdown-section {
+        padding: 40px 0;
+        min-height: 80vh;
+        background-attachment: scroll;
+    }
+    
     .countdown-item { 
         width: 120px; 
         height: 120px; 
@@ -234,6 +241,11 @@ body {
 }
 
 @media (max-width: 480px) {
+    .countdown-section {
+        padding: 20px 0;
+        min-height: 70vh;
+    }
+    
     .countdown-item { 
         width: 100px; 
         height: 100px; 
