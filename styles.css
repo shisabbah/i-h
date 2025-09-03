@@ -835,4 +835,21 @@ html {
 
 .henne-img:hover {
     transform: scale(1.02);
+}
+
+/* Houppa */
+.houppa-image {
+    margin-bottom: 2rem;
+}
+
+.houppa-img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease;
+}
+
+.houppa-img:hover {
+    transform: scale(1.02);
 } 
