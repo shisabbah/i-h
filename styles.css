@@ -220,44 +220,65 @@ body {
 /* Responsive pour le décompte */
 @media (max-width: 768px) {
     .countdown-section {
-        padding: 40px 0;
-        min-height: 80vh;
-        background-attachment: scroll;
+        padding: 40px 0 !important;
+        min-height: 80vh !important;
+        background-attachment: scroll !important;
     }
     
     .countdown-item { 
-        width: 100px; 
-        height: 100px; 
+        width: 100px !important; 
+        height: 100px !important; 
     }
     .countdown-number { 
-        font-size: 1.8rem; 
+        font-size: 1.8rem !important; 
     }
     .countdown-label { 
-        font-size: 0.9rem; 
+        font-size: 0.9rem !important; 
     }
     .countdown {
-        gap: 1rem;
+        gap: 1rem !important;
     }
 }
 
 @media (max-width: 480px) {
     .countdown-section {
-        padding: 20px 0;
-        min-height: 70vh;
+        padding: 20px 0 !important;
+        min-height: 70vh !important;
     }
     
     .countdown-item { 
-        width: 80px; 
-        height: 80px; 
+        width: 60px !important; 
+        height: 60px !important; 
     }
     .countdown-number { 
-        font-size: 1.4rem; 
+        font-size: 1.2rem !important; 
     }
     .countdown-label { 
-        font-size: 0.8rem; 
+        font-size: 0.7rem !important; 
     }
     .countdown {
-        gap: 0.8rem;
+        gap: 0.5rem !important;
+    }
+}
+
+@media (max-width: 360px) {
+    .countdown-section {
+        padding: 15px 0 !important;
+        min-height: 60vh !important;
+    }
+    
+    .countdown-item { 
+        width: 50px !important; 
+        height: 50px !important; 
+    }
+    .countdown-number { 
+        font-size: 1rem !important; 
+    }
+    .countdown-label { 
+        font-size: 0.6rem !important; 
+    }
+    .countdown {
+        gap: 0.3rem !important;
     }
 }
 
