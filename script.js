@@ -125,7 +125,7 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // Numéros de téléphone (à remplacer par les vrais numéros)
             const phoneNumber1 = '+33782850167'; // Premier numéro
-            const phoneNumber2 = '+33600000001'; // Remplacez par le deuxième numéro
+            const phoneNumber2 = '+33646596320'; // Remplacez par le deuxième numéro
             
             // Envoi des SMS via WhatsApp Web API
             sendSMS(phoneNumber1, smsMessage);
