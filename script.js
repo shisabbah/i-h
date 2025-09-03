@@ -106,18 +106,30 @@ document.addEventListener('DOMContentLoaded', function() {
             const formData = new FormData(form);
             const responseData = {
                 name: formData.get('name'),
-                email: formData.get('email'),
-                phone: formData.get('phone'),
                 mairie: formData.get('mairie'),
                 mairieCount: formData.get('mairie-count'),
                 henne: formData.get('henne'),
                 henneCount: formData.get('henne-count'),
                 houppa: formData.get('houppa'),
-                houppaCount: formData.get('houppa-count'),
-                message: formData.get('message')
+                houppaCount: formData.get('houppa-count')
             };
             
             console.log('Données de présence:', responseData);
+            
+            // Préparation du message SMS
+            let smsMessage = `Nouvelle confirmation de présence:\n`;
+            smsMessage += `Nom: ${responseData.name}\n`;
+            smsMessage += `Mairie: ${responseData.mairie}${responseData.mairie === 'oui' ? ` (${responseData.mairieCount} pers.)` : ''}\n`;
+            smsMessage += `Henné: ${responseData.henne}${responseData.henne === 'oui' ? ` (${responseData.henneCount} pers.)` : ''}\n`;
+            smsMessage += `Houppa: ${responseData.houppa}${responseData.houppa === 'oui' ? ` (${responseData.houppaCount} pers.)` : ''}`;
+            
+            // Numéros de téléphone (à remplacer par les vrais numéros)
+            const phoneNumber1 = '+33782850167'; // Premier numéro
+            const phoneNumber2 = '+33600000001'; // Remplacez par le deuxième numéro
+            
+            // Envoi des SMS via WhatsApp Web API
+            sendSMS(phoneNumber1, smsMessage);
+            sendSMS(phoneNumber2, smsMessage);
             
             // Affichage d'un message de confirmation
             alert('Merci pour votre confirmation de présence ! Nous vous remercions de votre participation.');
@@ -277,3 +289,17 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 }); 
+
+// Fonction pour envoyer SMS (utilise WhatsApp Web API)
+function sendSMS(phoneNumber, message) {
+    // Utilisation de WhatsApp Web API
+    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+    
+    // Ouvrir WhatsApp Web dans un nouvel onglet
+    window.open(whatsappUrl, '_blank');
+    
+    // Alternative : copier le message dans le presse-papiers
+    navigator.clipboard.writeText(message).then(function() {
+        console.log('Message copié dans le presse-papiers');
+    });
+} 
