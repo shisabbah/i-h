@@ -230,10 +230,11 @@ body {
         height: 100px !important; 
     }
     .countdown-number { 
-        font-size: 1.8rem !important; 
+        font-size: 1.6rem !important; 
     }
     .countdown-label { 
-        font-size: 0.9rem !important; 
+        font-size: 0.8rem !important; 
+        margin-top: 0.3rem !important;
     }
     .countdown {
         gap: 1rem !important;
@@ -246,10 +247,11 @@ body {
         height: 80px !important; 
     }
     .countdown-number { 
-        font-size: 1.5rem !important; 
+        font-size: 1.3rem !important; 
     }
     .countdown-label { 
-        font-size: 0.8rem !important; 
+        font-size: 0.7rem !important; 
+        margin-top: 0.2rem !important;
     }
     .countdown {
         gap: 0.8rem !important;
@@ -267,10 +269,11 @@ body {
         height: 60px !important; 
     }
     .countdown-number { 
-        font-size: 1.2rem !important; 
+        font-size: 1rem !important; 
     }
     .countdown-label { 
-        font-size: 0.7rem !important; 
+        font-size: 0.6rem !important; 
+        margin-top: 0.2rem !important;
     }
     .countdown {
         gap: 0.5rem !important;
@@ -288,10 +291,11 @@ body {
         height: 50px !important; 
     }
     .countdown-number { 
-        font-size: 1rem !important; 
+        font-size: 0.9rem !important; 
     }
     .countdown-label { 
-        font-size: 0.6rem !important; 
+        font-size: 0.5rem !important; 
+        margin-top: 0.1rem !important;
     }
     .countdown {
         gap: 0.3rem !important;
@@ -304,10 +308,11 @@ body {
         height: 45px !important; 
     }
     .countdown-number { 
-        font-size: 0.9rem !important; 
+        font-size: 0.8rem !important; 
     }
     .countdown-label { 
-        font-size: 0.5rem !important; 
+        font-size: 0.4rem !important; 
+        margin-top: 0.1rem !important;
     }
     .countdown {
         gap: 0.2rem !important;
