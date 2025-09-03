@@ -73,11 +73,32 @@ function updateCountdown() {
 setInterval(updateCountdown, 1000);
 updateCountdown(); // Appel initial
 
-// Gestion du formulaire de réponse
+// Gestion du formulaire de présence
 document.addEventListener('DOMContentLoaded', function() {
-    const form = document.querySelector('.response-form');
+    const form = document.querySelector('.presence-form');
     
     if (form) {
+        // Gestion de l'affichage des champs nombre de personnes
+        const radioGroups = form.querySelectorAll('.radio-group');
+        
+        radioGroups.forEach(group => {
+            const radios = group.querySelectorAll('input[type="radio"]');
+            const eventName = group.closest('.form-group').querySelector('label').textContent.toLowerCase();
+            
+            radios.forEach(radio => {
+                radio.addEventListener('change', function() {
+                    const numberGroup = group.parentElement.querySelector('.number-group');
+                    if (this.value === 'oui') {
+                        numberGroup.style.display = 'block';
+                    } else {
+                        numberGroup.style.display = 'none';
+                        numberGroup.querySelector('input[type="number"]').value = '';
+                    }
+                });
+            });
+        });
+        
+        // Gestion de la soumission du formulaire
         form.addEventListener('submit', function(e) {
             e.preventDefault();
             
@@ -85,17 +106,28 @@ document.addEventListener('DOMContentLoaded', function() {
             const formData = new FormData(form);
             const responseData = {
                 name: formData.get('name'),
+                email: formData.get('email'),
+                phone: formData.get('phone'),
                 mairie: formData.get('mairie'),
-                afterMairie: formData.get('after-mairie'),
+                mairieCount: formData.get('mairie-count'),
+                henne: formData.get('henne'),
+                henneCount: formData.get('henne-count'),
                 houppa: formData.get('houppa'),
-                soiree: formData.get('soiree'),
-                shabbat: formData.get('shabbat'),
+                houppaCount: formData.get('houppa-count'),
                 message: formData.get('message')
             };
             
-            console.log('Données de réponse:', responseData);
-            alert('Merci pour votre réponse ! Nous vous remercions de votre participation.');
+            console.log('Données de présence:', responseData);
+            
+            // Affichage d'un message de confirmation
+            alert('Merci pour votre confirmation de présence ! Nous vous remercions de votre participation.');
             form.reset();
+            
+            // Masquer les champs nombre de personnes
+            const numberGroups = form.querySelectorAll('.number-group');
+            numberGroups.forEach(group => {
+                group.style.display = 'none';
+            });
         });
     }
 });

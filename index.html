@@ -83,6 +83,58 @@
         </div>
     </section>
 
+    <!-- Section Formulaire de Présence -->
+    <section id="presence" class="section">
+        <div class="container">
+            <div class="content-box">
+                <h2 class="section-title">Confirmez votre présence</h2>
+                <form class="presence-form">
+                    <div class="form-group">
+                        <label for="name">Nom et Prénom</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Présence à la Mairie</label>
+                        <div class="radio-group">
+                            <label><input type="radio" name="mairie" value="oui"> Oui</label>
+                            <label><input type="radio" name="mairie" value="non"> Non</label>
+                        </div>
+                        <div class="number-group" id="mairie-number" style="display: none;">
+                            <label for="mairie-count">Nombre de personnes</label>
+                            <input type="number" id="mairie-count" name="mairie-count" min="1" max="10">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Présence au Henné</label>
+                        <div class="radio-group">
+                            <label><input type="radio" name="henne" value="oui"> Oui</label>
+                            <label><input type="radio" name="henne" value="non"> Non</label>
+                        </div>
+                        <div class="number-group" id="henne-number" style="display: none;">
+                            <label for="henne-count">Nombre de personnes</label>
+                            <input type="number" id="henne-count" name="henne-count" min="1" max="10">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Présence à la Houppa</label>
+                        <div class="radio-group">
+                            <label><input type="radio" name="houppa" value="oui"> Oui</label>
+                            <label><input type="radio" name="houppa" value="non"> Non</label>
+                        </div>
+                        <div class="number-group" id="houppa-number" style="display: none;">
+                            <label for="houppa-count">Nombre de personnes</label>
+                            <input type="number" id="houppa-count" name="houppa-count" min="1" max="10">
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn-submit">Confirmer ma présence</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
     <script src="script.js"></script>
 </body>
 </html> 
