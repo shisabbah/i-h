@@ -118,21 +118,28 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // Préparation du message SMS
             let smsMessage = `Nouvelle confirmation de présence:\n`;
-            smsMessage += `Nom: ${responseData.name}\n`;
+            smsMessage += `De: ${responseData.name}\n`;
             smsMessage += `Mairie: ${responseData.mairie}${responseData.mairie === 'oui' ? ` (${responseData.mairieCount} pers.)` : ''}\n`;
             smsMessage += `Henné: ${responseData.henne}${responseData.henne === 'oui' ? ` (${responseData.henneCount} pers.)` : ''}\n`;
             smsMessage += `Houppa: ${responseData.houppa}${responseData.houppa === 'oui' ? ` (${responseData.houppaCount} pers.)` : ''}`;
             
-            // Numéros de téléphone (à remplacer par les vrais numéros)
-            const phoneNumber1 = '+33782850167'; // Premier numéro
-            const phoneNumber2 = '+33646596320'; // Remplacez par le deuxième numéro
+            // Proposer l'envoi à Ilana ou Harrisson
+            const choix = window.prompt('Envoyer la réponse à:\n1) Ilana\n2) Harisson\n(Entrez 1 ou 2)', '1');
+            let targetNumber = null;
+            if (choix === '1') {
+                targetNumber = '+33646596320'; // Ilana
+            } else if (choix === '2') {
+                targetNumber = '+33629203590'; // Harisson
+            }
             
-            // Envoi des SMS via WhatsApp Web API
-            sendSMS(phoneNumber1, smsMessage);
-            sendSMS(phoneNumber2, smsMessage);
+            if (targetNumber) {
+                sendSMS(targetNumber, smsMessage);
+            } else {
+                alert('Aucun destinataire sélectionné. Envoi annulé.');
+            }
             
             // Affichage d'un message de confirmation
-            alert('Merci pour votre confirmation de présence ! Nous vous remercions de votre participation.');
+            alert('Merci pour votre confirmation de présence !');
             form.reset();
             
             // Masquer les champs nombre de personnes
