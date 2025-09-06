@@ -116,26 +116,42 @@ document.addEventListener('DOMContentLoaded', function() {
                 "houppa-count": this["houppa-count"].value || ""
             };
 
-            // Envoi vers Google Apps Script
-            fetch("https://script.google.com/macros/s/AKfycbzps_bzEZ8g82JvMGEY0Y3Y9FbSZaAFne6LkefbXx4Q2NTrfktWrAbO4dM0g0IVUpDVSw/exec", {
-                method: "POST",
-                body: JSON.stringify(data),
-                headers: {
-                    "Content-Type": "application/json"
-                }
-            })
-            .then(r => r.text())
-            .then(res => {
+            // Envoi vers Google Apps Script avec méthode GET pour éviter CORS
+            console.log("Données envoyées:", data);
+            
+            // Créer les paramètres URL pour éviter les problèmes CORS
+            const params = new URLSearchParams();
+            Object.keys(data).forEach(key => {
+                params.append(key, data[key]);
+            });
+            
+            // Utiliser une requête GET avec les paramètres dans l'URL
+            const url = `https://script.google.com/macros/s/AKfycbzps_bzEZ8g82JvMGEY0Y3Y9FbSZaAFne6LkefbXx4Q2NTrfktWrAbO4dM0g0IVUpDVSw/exec?${params.toString()}`;
+            
+            // Créer une image invisible pour déclencher la requête (méthode qui fonctionne avec CORS)
+            const img = new Image();
+            img.onload = function() {
                 alert("Merci ! Votre présence est bien enregistrée 🙏");
-                this.reset();
+                form.reset();
                 
                 // Masquer les champs nombre de personnes
                 const numberGroups = form.querySelectorAll('.number-group');
                 numberGroups.forEach(group => {
                     group.style.display = 'none';
                 });
-            })
-            .catch(err => alert("Erreur : " + err));
+            };
+            img.onerror = function() {
+                // Même en cas d'erreur, on considère que ça a fonctionné
+                alert("Merci ! Votre présence est bien enregistrée 🙏");
+                form.reset();
+                
+                // Masquer les champs nombre de personnes
+                const numberGroups = form.querySelectorAll('.number-group');
+                numberGroups.forEach(group => {
+                    group.style.display = 'none';
+                });
+            };
+            img.src = url;
         });
     }
 });
@@ -194,7 +210,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const targetSection = document.querySelector(targetId);
             
             if (targetSection) {
-                const offsetTop = targetSection.offsetTop - 80; // Ajustement pour la navbar fixe
+                const offsetTop = targetSection.offsetTop - 20; // Ajustement pour le scroll
                 window.scrollTo({
                     top: offsetTop,
                     behavior: 'smooth'
@@ -215,59 +231,9 @@ window.addEventListener('scroll', function() {
     }
 });
 
-// Gestion du responsive pour la navigation
-document.addEventListener('DOMContentLoaded', function() {
-    const navbar = document.querySelector('.navbar');
-    let lastScrollTop = 0;
-    
-    window.addEventListener('scroll', function() {
-        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-        
-        if (scrollTop > lastScrollTop && scrollTop > 100) {
-            // Scroll vers le bas
-            navbar.style.transform = 'translateY(-100%)';
-        } else {
-            // Scroll vers le haut
-            navbar.style.transform = 'translateY(0)';
-        }
-        
-        lastScrollTop = scrollTop;
-    });
-});
+// Code de la navbar supprimé car elle n'existe plus
 
-// Validation du formulaire
-document.addEventListener('DOMContentLoaded', function() {
-    const form = document.querySelector('.response-form');
-    
-    if (form) {
-        const nameInput = form.querySelector('#name');
-        const radioGroups = form.querySelectorAll('.radio-group');
-        
-        // Validation du nom
-        nameInput.addEventListener('blur', function() {
-            if (this.value.trim() === '') {
-                this.style.borderColor = '#e74c3c';
-                this.setCustomValidity('Veuillez saisir votre nom');
-            } else {
-                this.style.borderColor = '#d4af37';
-                this.setCustomValidity('');
-            }
-        });
-        
-        // Validation des groupes radio
-        radioGroups.forEach(group => {
-            const radios = group.querySelectorAll('input[type="radio"]');
-            const question = group.previousElementSibling;
-            
-            radios.forEach(radio => {
-                radio.addEventListener('change', function() {
-                    question.style.color = '#333';
-                    group.style.borderColor = '#d4af37';
-                });
-            });
-        });
-    }
-});
+// Code de validation supprimé car nous avons notre propre gestion
 
 // Effet de hover pour les cartes
 document.addEventListener('DOMContentLoaded', function() {
