@@ -73,80 +73,69 @@ function updateCountdown() {
 setInterval(updateCountdown, 1000);
 updateCountdown(); // Appel initial
 
-// Gestion du formulaire de présence
+// Gestion du formulaire de présence avec Google Apps Script
 document.addEventListener('DOMContentLoaded', function() {
-    const form = document.querySelector('.presence-form');
+    const form = document.getElementById('presenceForm');
     
     if (form) {
-        // Gestion de l'affichage des champs nombre de personnes
-        const radioGroups = form.querySelectorAll('.radio-group');
-        
-        radioGroups.forEach(group => {
-            const radios = group.querySelectorAll('input[type="radio"]');
-            const eventName = group.closest('.form-group').querySelector('label').textContent.toLowerCase();
-            
+        // Fonction pour gérer l'affichage du champ "nombre de personnes"
+        function toggleNumberField(radioName, numberGroupId) {
+            const radios = document.querySelectorAll(`input[name="${radioName}"]`);
+            const numberGroup = document.getElementById(numberGroupId);
+
             radios.forEach(radio => {
-                radio.addEventListener('change', function() {
-                    const numberGroup = group.parentElement.querySelector('.number-group');
-                    if (this.value === 'oui') {
-                        numberGroup.style.display = 'block';
+                radio.addEventListener("change", function() {
+                    if (this.value === "oui") {
+                        numberGroup.style.display = "block";
                     } else {
-                        numberGroup.style.display = 'none';
-                        numberGroup.querySelector('input[type="number"]').value = '';
+                        numberGroup.style.display = "none";
+                        // Efface la valeur si "Non" est choisi
+                        const input = numberGroup.querySelector("input");
+                        if (input) input.value = "";
                     }
                 });
             });
-        });
+        }
+
+        // Appliquer la fonction aux 3 sections
+        toggleNumberField("mairie", "mairie-number");
+        toggleNumberField("henne", "henne-number");
+        toggleNumberField("houppa", "houppa-number");
         
-        // Gestion de la soumission du formulaire
+        // Soumission du formulaire vers Google Sheets
         form.addEventListener('submit', function(e) {
             e.preventDefault();
-            
-            // Récupération des données du formulaire
-            const formData = new FormData(form);
-            const responseData = {
-                name: formData.get('name'),
-                mairie: formData.get('mairie'),
-                mairieCount: formData.get('mairie-count'),
-                henne: formData.get('henne'),
-                henneCount: formData.get('henne-count'),
-                houppa: formData.get('houppa'),
-                houppaCount: formData.get('houppa-count')
+
+            const data = {
+                name: this.name.value,
+                mairie: this.mairie.value,
+                "mairie-count": this["mairie-count"].value || "",
+                henne: this.henne.value,
+                "henne-count": this["henne-count"].value || "",
+                houppa: this.houppa.value,
+                "houppa-count": this["houppa-count"].value || ""
             };
-            
-            console.log('Données de présence:', responseData);
-            
-            // Préparation du message SMS
-            let smsMessage = `Nouvelle confirmation de présence:\n`;
-            smsMessage += `De: ${responseData.name}\n`;
-            smsMessage += `Mairie: ${responseData.mairie}${responseData.mairie === 'oui' ? ` (${responseData.mairieCount} pers.)` : ''}\n`;
-            smsMessage += `Henné: ${responseData.henne}${responseData.henne === 'oui' ? ` (${responseData.henneCount} pers.)` : ''}\n`;
-            smsMessage += `Houppa: ${responseData.houppa}${responseData.houppa === 'oui' ? ` (${responseData.houppaCount} pers.)` : ''}`;
-            
-            // Proposer l'envoi à Ilana ou Harrisson
-            const choix = window.prompt('Envoyer la réponse à:\n1) Ilana\n2) Harisson\n(Entrez 1 ou 2)', '1');
-            let targetNumber = null;
-            if (choix === '1') {
-                targetNumber = '+33646596320'; // Ilana
-            } else if (choix === '2') {
-                targetNumber = '+33629203590'; // Harisson
-            }
-            
-            if (targetNumber) {
-                sendSMS(targetNumber, smsMessage);
-            } else {
-                alert('Aucun destinataire sélectionné. Envoi annulé.');
-            }
-            
-            // Affichage d'un message de confirmation
-            alert('Merci pour votre confirmation de présence !');
-            form.reset();
-            
-            // Masquer les champs nombre de personnes
-            const numberGroups = form.querySelectorAll('.number-group');
-            numberGroups.forEach(group => {
-                group.style.display = 'none';
-            });
+
+            // Envoi vers Google Apps Script
+            fetch("https://script.google.com/macros/s/AKfycbzps_bzEZ8g82JvMGEY0Y3Y9FbSZaAFne6LkefbXx4Q2NTrfktWrAbO4dM0g0IVUpDVSw/exec", {
+                method: "POST",
+                body: JSON.stringify(data),
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            })
+            .then(r => r.text())
+            .then(res => {
+                alert("Merci ! Votre présence est bien enregistrée 🙏");
+                this.reset();
+                
+                // Masquer les champs nombre de personnes
+                const numberGroups = form.querySelectorAll('.number-group');
+                numberGroups.forEach(group => {
+                    group.style.display = 'none';
+                });
+            })
+            .catch(err => alert("Erreur : " + err));
         });
     }
 });
@@ -295,18 +284,4 @@ document.addEventListener('DOMContentLoaded', function() {
             this.style.boxShadow = '';
         });
     });
-}); 
-
-// Fonction pour envoyer SMS (utilise WhatsApp Web API)
-function sendSMS(phoneNumber, message) {
-    // Utilisation de WhatsApp Web API
-    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
-    
-    // Ouvrir WhatsApp Web dans un nouvel onglet
-    window.open(whatsappUrl, '_blank');
-    
-    // Alternative : copier le message dans le presse-papiers
-    navigator.clipboard.writeText(message).then(function() {
-        console.log('Message copié dans le presse-papiers');
-    });
-} 
+});  
