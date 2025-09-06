@@ -126,7 +126,7 @@ document.addEventListener('DOMContentLoaded', function() {
             });
             
             // Utiliser une requête GET avec les paramètres dans l'URL
-            const url = `https://script.google.com/macros/s/AKfycbzps_bzEZ8g82JvMGEY0Y3Y9FbSZaAFne6LkefbXx4Q2NTrfktWrAbO4dM0g0IVUpDVSw/exec?${params.toString()}`;
+            const url = `https://script.google.com/macros/s/AKfycbxKA63qVAahz471vS30hfr2tPeBZEJmrdAnWGYdjO4P/exec?${params.toString()}`;
             
             // Créer une image invisible pour déclencher la requête (méthode qui fonctionne avec CORS)
             const img = new Image();
