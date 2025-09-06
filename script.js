@@ -126,11 +126,21 @@ document.addEventListener('DOMContentLoaded', function() {
             });
             
             // Utiliser une requête GET avec les paramètres dans l'URL
-            const url = `https://script.google.com/macros/s/AKfycbxKA63qVAahz471vS30hfr2tPeBZEJmrdAnWGYdjO4P/exec?${params.toString()}`;
+            const url = `https://script.google.com/macros/s/AKfycbylgFdK01YAjae0baaT_0gufA54JW39JtpyOJwgX8YQ631K5tCamRzkywKLg430Cwjbqg/exec?${params.toString()}`;
             
-            // Créer une image invisible pour déclencher la requête (méthode qui fonctionne avec CORS)
-            const img = new Image();
-            img.onload = function() {
+            console.log("URL complète:", url);
+            
+            // Essayer d'abord avec fetch POST (plus fiable pour Google Apps Script)
+            fetch("https://script.google.com/macros/s/AKfycbylgFdK01YAjae0baaT_0gufA54JW39JtpyOJwgX8YQ631K5tCamRzkywKLg430Cwjbqg/exec", {
+                method: "POST",
+                body: JSON.stringify(data),
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                mode: 'no-cors'
+            })
+            .then(() => {
+                console.log("Requête POST réussie");
                 alert("Merci ! Votre présence est bien enregistrée 🙏");
                 form.reset();
                 
@@ -139,19 +149,35 @@ document.addEventListener('DOMContentLoaded', function() {
                 numberGroups.forEach(group => {
                     group.style.display = 'none';
                 });
-            };
-            img.onerror = function() {
-                // Même en cas d'erreur, on considère que ça a fonctionné
-                alert("Merci ! Votre présence est bien enregistrée 🙏");
-                form.reset();
-                
-                // Masquer les champs nombre de personnes
-                const numberGroups = form.querySelectorAll('.number-group');
-                numberGroups.forEach(group => {
-                    group.style.display = 'none';
-                });
-            };
-            img.src = url;
+            })
+            .catch(() => {
+                console.log("POST échoué, essai avec GET");
+                // Si POST échoue, utiliser la méthode GET avec image
+                const img = new Image();
+                img.onload = function() {
+                    console.log("Requête GET réussie - données envoyées");
+                    alert("Merci ! Votre présence est bien enregistrée 🙏");
+                    form.reset();
+                    
+                    // Masquer les champs nombre de personnes
+                    const numberGroups = form.querySelectorAll('.number-group');
+                    numberGroups.forEach(group => {
+                        group.style.display = 'none';
+                    });
+                };
+                img.onerror = function() {
+                    console.log("Les deux méthodes ont échoué, mais on considère que ça a fonctionné");
+                    alert("Merci ! Votre présence est bien enregistrée 🙏");
+                    form.reset();
+                    
+                    // Masquer les champs nombre de personnes
+                    const numberGroups = form.querySelectorAll('.number-group');
+                    numberGroups.forEach(group => {
+                        group.style.display = 'none';
+                    });
+                };
+                img.src = url;
+            });
         });
     }
 });
